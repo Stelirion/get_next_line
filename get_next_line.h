@@ -6,7 +6,7 @@
 /*   By: ngennaro <ngennaro@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:50:21 by ngennaro          #+#    #+#             */
-/*   Updated: 2022/12/12 15:40:53 by ngennaro         ###   ########lyon.fr   */
+/*   Updated: 2022/12/13 11:49:05 by ngennaro         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 char	*get_next_line(int fd);
 
-int		*is_end_line(const char *str,int *index);
-char	*ft_strjoin(char const *s1, char const *s2);
+int		*is_end_line(const char *str, int *index);
+char	*join(char const *s1, char const *s2);
 
 #endif

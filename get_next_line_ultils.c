@@ -6,13 +6,13 @@
 /*   By: ngennaro <ngennaro@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:49:27 by ngennaro          #+#    #+#             */
-/*   Updated: 2022/12/12 16:05:19 by ngennaro         ###   ########lyon.fr   */
+/*   Updated: 2022/12/13 11:48:54 by ngennaro         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	*is_end_line(const char *str,int *index)
+int	*is_end_line(const char *str, int *index)
 {
 	int	i;
 
@@ -33,7 +33,7 @@ int	*is_end_line(const char *str,int *index)
 	return (0);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*join(char const *s1, char const *s2)
 {
 	int		i;
 	int		j;

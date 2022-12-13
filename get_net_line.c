@@ -6,13 +6,37 @@
 /*   By: ngennaro <ngennaro@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:49:24 by ngennaro          #+#    #+#             */
-/*   Updated: 2022/12/12 17:13:29 by ngennaro         ###   ########lyon.fr   */
+/*   Updated: 2022/12/13 12:28:13 by ngennaro         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*get_next_line(int fd, int buffer)
+char	*buffer_parse(char *buffer, int index)
+{
+	char	*next;
+	int		i;
+
+	i = 0;
+	next = malloc(sizeof(char) * (index + 1));
+	if (!next)
+		return (NULL);
+	while (i <= index)
+	{
+		next[i] = buffer[i];
+		i++;
+	}
+	free(buffer);
+	i = 0;
+	while (i <= index)
+	{
+		buffer[i] = next[i];
+		i++;
+	}
+	return(next);
+}
+
+char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
 	int			check;
@@ -23,12 +47,11 @@ static char	*get_next_line(int fd, int buffer)
 	while (check != 0)
 	{
 		if (is_end_line(buffer, &index))
-			return(ft_strjoin(line, /*ft_debut_phrase*/));
+			return (join(line, buffer_parse(buffer, index)));
 		else if (buffer)
-			line = ft_strjoin(line, buffer);
-
+			line = join(line, buffer);
 		check = read(fd, buffer, BUFFER_SIZE);
-		if (check = -1)
+		if (check == -1)
 			return (NULL);
 	}
 	return (line);
