@@ -6,7 +6,7 @@
 /*   By: ngennaro <ngennaro@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:49:24 by ngennaro          #+#    #+#             */
-/*   Updated: 2022/12/13 12:28:13 by ngennaro         ###   ########lyon.fr   */
+/*   Updated: 2022/12/13 12:32:14 by ngennaro         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,6 @@ char	*buffer_parse(char *buffer, int index)
 		next[i] = buffer[i];
 		i++;
 	}
-	free(buffer);
-	i = 0;
-	while (i <= index)
-	{
-		buffer[i] = next[i];
-		i++;
-	}
-	return(next);
 }
 
 char	*get_next_line(int fd)
