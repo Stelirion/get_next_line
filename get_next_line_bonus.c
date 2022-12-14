@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ngennaro <ngennaro@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:49:24 by ngennaro          #+#    #+#             */
-/*   Updated: 2022/12/14 14:15:45 by ngennaro         ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 14:15:13 by ngennaro         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*buffer_parse(char *buffer, size_t index)
 {
@@ -47,18 +47,12 @@ char	*return_end_line(char *line, char *parsed_buffer)
 	return (line);
 }
 
-char	*get_next_line(int fd)
+char	*get_line(char *line, char *buffer, int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
-	ssize_t		check;
-	size_t		index;
-	char		*line;
+	ssize_t	check;
+	size_t	index;
 
 	check = 1;
-	line = malloc(sizeof(char));
-	if (!line)
-		return (NULL);
-	line[0] = '\0';
 	while (check != 0)
 	{
 		if (is_end_line(buffer, &index))
@@ -71,6 +65,23 @@ char	*get_next_line(int fd)
 		if (check == -1)
 			return (free(line), buffer_clear(buffer, BUFFER_SIZE + 1), NULL);
 	}
+	return (line);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	buffer[OPEN_MAX][BUFFER_SIZE + 1];
+	char		*line;
+
+	if (fd < 0 || fd >= OPEN_MAX)
+		return (NULL);
+	line = malloc(sizeof(char));
+	if (!line)
+		return (NULL);
+	line[0] = '\0';
+	line = get_line(line, buffer[fd], fd);
+	if (!line)
+		return (NULL);
 	if (line[0] == '\0')
 		return (free(line), NULL);
 	return (line);
