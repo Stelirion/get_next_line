@@ -6,7 +6,7 @@
 /*   By: ngennaro <ngennaro@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:49:27 by ngennaro          #+#    #+#             */
-/*   Updated: 2022/12/13 12:48:00 by ngennaro         ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 13:16:02 by ngennaro         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,27 @@ int	is_end_line(const char *str, int *index)
 
 	i = 0;
 	while (str[i])
-		i++;
-	while (i > 0)
 	{
 		if (str[i] == '\n')
+		{
+			*index = i;
 			return (1);
-		i--;
-	}
-	if (str[i] == '\n')
-	{
-		*index = i;
-		return (1);
+		}
+		i++;
 	}
 	return (0);
+}
+
+void	buffer_clear(char *str, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < len)
+	{
+		str[i] = '\0';
+		i++;
+	}
 }
 
 char	*join(char const *s1, char const *s2)
@@ -52,10 +60,10 @@ char	*join(char const *s1, char const *s2)
 	i = 0;
 	j = 0;
 	if (!s1 || !s2)
-		return (NULL);
+		return (free((void *)s1), NULL);
 	str = malloc(sizeof(char) * (len(s1) + len(s2) + 1));
 	if (!str)
-		return (NULL);
+		return (free((void *)s1), NULL);
 	while (s1[i])
 	{
 		str[i] = s1[i];
@@ -68,6 +76,6 @@ char	*join(char const *s1, char const *s2)
 		j++;
 	}
 	str[i] = '\0';
-	//free (s1); free missing
+	free ((void *)s1);
 	return (str);
 }

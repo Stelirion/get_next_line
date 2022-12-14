@@ -6,7 +6,7 @@
 /*   By: ngennaro <ngennaro@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:49:24 by ngennaro          #+#    #+#             */
-/*   Updated: 2022/12/13 12:45:51 by ngennaro         ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 13:07:59 by ngennaro         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*buffer_parse(char *buffer, int index)
 	int		i;
 
 	i = 0;
-	next = malloc(sizeof(char) * (index + 1));
+	next = malloc(sizeof(char) * (index + 2));
 	if (!next)
 		return (NULL);
 	while (i <= index)
@@ -26,7 +26,25 @@ char	*buffer_parse(char *buffer, int index)
 		next[i] = buffer[i];
 		i++;
 	}
-	return (next); //free missing
+	next[i] = '\0';
+	i = 0;
+	index ++;
+	while (buffer[i + index] != '\0')
+	{
+		buffer[i] = buffer[i + index];
+		i++;
+	}
+	buffer[i] = '\0';
+	return (next);
+}
+
+char	*return_end_line(char *line, char *parsed_buffer)
+{
+	if (!parsed_buffer)
+		return (free(line), NULL);
+	line = join(line, parsed_buffer);
+	free(parsed_buffer);
+	return (line);
 }
 
 char	*get_next_line(int fd)
@@ -37,15 +55,23 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	check = 1;
+	line = malloc(sizeof(char));
+	if (!line)
+		return (NULL);
+	line[0] = '\0';
 	while (check != 0)
 	{
 		if (is_end_line(buffer, &index))
-			return (join(line, buffer_parse(buffer, index)));
-		else
-			line = join(line, buffer);
+			return (return_end_line(line, buffer_parse(buffer, index)));
+		line = join(line, buffer);
+		if (!line)
+			return (buffer_clear(buffer, BUFFER_SIZE + 1), NULL);
 		check = read(fd, buffer, BUFFER_SIZE);
+		buffer[check] = '\0';
 		if (check == -1)
-			return (NULL);
+			return (free(line), buffer_clear(buffer, BUFFER_SIZE + 1), NULL);
 	}
+	if (line[0] == '\0')
+		return (free(line), NULL);
 	return (line);
 }
